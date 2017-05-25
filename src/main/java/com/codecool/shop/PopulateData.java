@@ -10,11 +10,14 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
-/**
- * Created by judit on 18.05.17.
- */
+
 public class PopulateData {
 
+    /**
+     * This method instantiates data for Dao, if the user don't want store
+     * data in database or database doesn't exist.
+     *
+     */
     public static void populateData() {
 
         ProductDao productDataStore = ProductDaoMem.getInstance();

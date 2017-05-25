@@ -14,7 +14,10 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Main {
 
-
+    /**
+     * This method set up the server for the web-shop application.
+     *
+     */
     public static void main(String[] args) {
 
         // default server settings
