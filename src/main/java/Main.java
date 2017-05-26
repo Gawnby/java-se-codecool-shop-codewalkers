@@ -2,6 +2,9 @@ import com.codecool.shop.controller.CartController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.model.Lineitem;
 import com.codecool.shop.model.Order;
+import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -14,8 +17,11 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Main {
 
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+        PropertyConfigurator.configure("src/main/resources/log4j.properties");
+        logger.info("Application started!");
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -48,6 +54,7 @@ public class Main {
 
         get("/cart", (Request request, Response res) -> {
             Order myOrder = Order.getOrder(request);
+            logger.debug("The current order is: {}", myOrder);
             return new ThymeleafTemplateEngine().render(CartController.renderCart(request, res, myOrder));
         });
 
@@ -59,6 +66,7 @@ public class Main {
             int id = Integer.parseInt(idString);
             Order myOrder = Order.getOrder(request);
             myOrder.addItem(id);
+            logger.debug("The id of the item is: {}", id);
             return Order.getOrder(request).getTotalQuantity();
         });
 
@@ -67,6 +75,7 @@ public class Main {
             int id = Integer.parseInt(idString);
             Order myOrder = Order.getOrder(request);
             Lineitem selected = myOrder.getLine(id);
+            logger.debug("The selected item is: {}", selected);
             selected.addOneToQuantity(request);
             System.out.println(myOrder);
 
